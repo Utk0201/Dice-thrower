@@ -14,7 +14,7 @@ console.log('connected')
 let head=document.querySelector('h1');
 let reset=document.querySelector('#reset');
 let upto=document.querySelector('#upto');
-let over=false;
+let over=true;
 let limit;
 
 // Adding options in "upto"
