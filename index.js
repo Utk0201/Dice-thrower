@@ -14,7 +14,7 @@ console.log('connected')
 let head=document.querySelector('h1');
 let reset=document.querySelector('#reset');
 let upto=document.querySelector('#upto');
-let over=true;  //can't press buttons before setting upper limit
+let over=true;
 let limit;
 
 // Adding options in "upto"
@@ -29,8 +29,10 @@ for(let i=0;i<10;i++){
 
 upto.addEventListener('change',function(){
     limit=parseInt(this.value);
+    rst();
+    upto.value=limit;
     console.log("limit= ",limit);
-    over=false;                             //game starts
+    over=false;
 });
 
 function updateScores(player, opponent){
@@ -49,10 +51,14 @@ function updateScores(player, opponent){
 
 p1.button.addEventListener('click',function(){
     // console.log("clicked!!");
-    updateScores(p1,p2);
+    if(!over){
+        updateScores(p1,p2);
+    }
 });
 p2.button.addEventListener('click',function(){
-    updateScores(p2,p1);
+    if(!over){
+        updateScores(p2,p1);
+    }
 })
 
 reset.addEventListener('click',function(){
