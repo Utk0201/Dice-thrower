@@ -1,76 +1,70 @@
+const p1={
+    score:0,
+    button: document.querySelector('#inc1'),
+    display: document.querySelector('#p1')
+}
+
+const p2={
+    score:0,
+    button: document.querySelector('#inc2'),
+    display: document.querySelector('#p2')
+}
+
 console.log('connected')
 let head=document.querySelector('h1');
-let pl1=document.querySelector('#p1');
-let pl2=document.querySelector('#p2');
-let inc1=document.querySelector('#inc1');
-let inc2=document.querySelector('#inc2');
 let reset=document.querySelector('#reset');
-let upto=document.querySelector('#upto')
-
+let upto=document.querySelector('#upto');
 let over=false;
+let limit;
 
-for(let i=0;i<51;i++){
+// Adding options in "upto"
+
+for(let i=0;i<10;i++){
     let opt=document.createElement('option');
-    opt.value=i;
-    opt.innerHTML=`${i}`;
+    opt.innerHTML=`<h1>${i}</h1>`;
     upto.appendChild(opt);
 }
-//input winning score
-let winScr;
+
+// select limiting score
+
 upto.addEventListener('change',function(){
-    winScr=parseInt(upto.value);
-    console.log(winScr);
-    rst();
-    over=false;
+    limit=parseInt(this.value);
+    console.log("limit= ",limit);
 });
 
-//input winning score
-
-//updating score
-let scr1=0;
-let scr2=0;
-
-inc1.addEventListener('click',function(){
+function updateScores(player, opponent){
     if(!over){
-        if(scr1<winScr){
-            scr1+=Math.floor(Math.random()*6+1);
-            pl1.textContent=`${scr1}`;
-        }
-        if(scr1>=winScr){
-            console.log('player1 wins!!!!');
-            p1.classList.add('winner');
-            p2.classList.add('loser');
+        player.button.disabled=true;
+        opponent.button.disabled=false;
+        player.score+=Math.floor(Math.random()*6)+1;
+        if(player.score >= limit){
             over=true;
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
         }
+        player.display.textContent= player.score;
     }
+}
+
+p1.button.addEventListener('click',function(){
+    // console.log("clicked!!");
+    updateScores(p1,p2);
 });
-inc2.addEventListener('click',function(){
-    if(!over){
-        if(scr2<winScr){
-            scr2+=Math.floor(Math.random()*6+1);
-            pl2.textContent=`${scr2}`;
-        }
-        if(scr2>=winScr){
-            console.log('player2 wins!!!!');
-            p2.classList.add('winner');
-            p1.classList.add('loser');
-            over=true;
-        }
-    }
-});
+p2.button.addEventListener('click',function(){
+    updateScores(p2,p1);
+})
 
 reset.addEventListener('click',function(){
     rst();
-    upto.value=0;
-});
+})
 
 function rst(){
-    p1.classList.remove('winner');
-    p2.classList.remove('loser');
-    p1.classList.remove('loser');
-    p2.classList.remove('winner');
-    scr1=0,scr2=0;
-    pl1.textContent=`0`;
-    pl2.textContent=`0`;
+    over=false;
+    p1.score=0;
+    p2.score=0;
+    p1.display.textContent=0;
+    p2.display.textContent=0;
+    p1.display.classList.remove('has-text-danger','has-text-success');
+    p2.display.classList.remove('has-text-danger','has-text-success');
+    upto.value=0;
 }
-
