@@ -14,7 +14,7 @@ console.log('connected')
 let head=document.querySelector('h1');
 let reset=document.querySelector('#reset');
 let upto=document.querySelector('#upto');
-let over=true;
+let over=true;  //can't press buttons before setting upper limit
 let limit;
 
 // Adding options in "upto"
@@ -30,7 +30,7 @@ for(let i=0;i<10;i++){
 upto.addEventListener('change',function(){
     limit=parseInt(this.value);
     console.log("limit= ",limit);
-    over=false;
+    over=false;                             //game starts
 });
 
 function updateScores(player, opponent){
